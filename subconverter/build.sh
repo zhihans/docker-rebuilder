@@ -6,7 +6,7 @@ source_docker_image="tindy2013/subconverter:latest"
 IMAGE_NAME="asnil/subconverter"
 
 # hash 判断部分
-docker pull $source_docker_image
+docker pull $source_docker_image >> /dev/null 2>&1
 remote_hash=$(docker inspect --format='{{index .RepoDigests 0}}' $source_docker_image)
 local_hash=$(cat hash)
 if [[ "$remote_hash" = "$local_hash" ]]; then
@@ -23,6 +23,6 @@ docker buildx build --platform linux/amd64,linux/arm64 -t "$IMAGE_NAME:$CURRENT_
 
 # 输出构建信息
 update_time=$(TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M')
-echo "**镜像名称:** \`$IMAGE_NAME\`" >> ../readme.tmp
-echo "**更新时间:** $update_time" >> ../readme.tmp
-echo "" >> ../readme.tmp
+echo "**镜像名称:** \`$IMAGE_NAME\`" >> readme.md
+echo "**更新时间:** $update_time" >> readme.md
+echo "" >> readme.md

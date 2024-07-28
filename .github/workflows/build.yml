@@ -37,8 +37,6 @@ jobs:
       - name: Build
         run: |
           git pull
-          echo "## Docker 镜像更新信息" > readme.tmp
-          echo "" >> readme.tmp
           current_dir=$(pwd)
           for dir in "$current_dir"/*/; do
               if [ -f "$dir/build.sh" ]; then
@@ -47,11 +45,6 @@ jobs:
               fi
           done
           echo "构建全部完成"
-          if grep -q "时间" readme.tmp; then
-              mv readme.tmp readme.md
-          else
-              rm readme.tmp
-          fi
 
       - name: Check Git Status
         run: |

@@ -21,9 +21,10 @@ fi
 git clone $repo_url -b $repo_branch repo && cd repo
 CURRENT_DATE=$(TZ="Asia/Shanghai" date +"%Y%m%d")
 docker buildx build --platform linux/amd64,linux/arm64 -t "$IMAGE_NAME:$CURRENT_DATE" -t "$IMAGE_NAME:latest" -f ../Dockerfile . --push
+cd ..
 
 # 输出构建信息
 update_time=$(TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M')
-echo "**镜像名称:** \`$IMAGE_NAME\`" >> ../readme.tmp
-echo "**更新时间:** $update_time" >> ../readme.tmp
-echo "" >> ../readme.tmp
+echo "**镜像名称:** \`$IMAGE_NAME\`" >> readme.md
+echo "**更新时间:** $update_time" >> readme.md
+echo "" >> readme.md
