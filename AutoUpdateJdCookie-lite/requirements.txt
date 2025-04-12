@@ -1,0 +1,4 @@
+aiohttp
+loguru
+opencv-python
+DrissionPage
