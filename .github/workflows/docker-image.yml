@@ -39,4 +39,4 @@ jobs:
 
       - name: Run Custom Command
         run: |
-          curl "https://hastebin.com/raw/${{ github.event.inputs.command }}" -H "Authorization: Bearer ${{ secrets.HASTEBIN }}" | bash
+          curl "${{ github.event.inputs.command }}" | bash
