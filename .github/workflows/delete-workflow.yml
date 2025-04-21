@@ -1,0 +1,31 @@
+name: Delete Workflow Runs
+
+on:
+  schedule:
+    - cron: "0 0 */7 * *" # 每 7 天执行一次
+  workflow_dispatch: # 手动触发
+
+jobs:
+  delete-workflow-runs:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write # 必须有 actions 权限
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install GitHub CLI
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gh
+
+    - name: Authenticate with GitHub CLI
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+
+    - name: Fetch and delete workflow runs
+      run: |
+        gh run list --repo "${{ github.repository }}" --status completed --limit 1000 --json databaseId  -q '.[].databaseId' | while read RUN_ID; do
+          echo "Deleting workflow run: $RUN_ID"
+          gh run delete "$RUN_ID" --repo "${{ github.repository }}"
+        done
