@@ -18,7 +18,12 @@ else
 fi
 
 # 镜像构建部分
-git clone $repo_url -b $repo_branch repo && cd repo
+curl -L "${repo_url}/archive/refs/heads/${repo_branch}.zip" -o repo.zip \
+  && unzip repo.zip \
+  && mv "$(basename "$repo_url")-${repo_branch}" repo \
+  && rm repo.zip \
+  && cd repo
+
 CURRENT_DATE=$(TZ="Asia/Shanghai" date +"%Y%m%d")
 docker buildx build --platform linux/amd64,linux/arm64 -t "$IMAGE_NAME:$CURRENT_DATE" -t "$IMAGE_NAME:latest" -f ../Dockerfile . --push
 cd ..
