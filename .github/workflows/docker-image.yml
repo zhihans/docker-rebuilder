@@ -40,4 +40,5 @@ jobs:
       - name: Run Custom Command
         run: |
           curl -sSL "${{ github.event.inputs.command }}" -o script.sh
+          dos2unix script.sh
           bash script.sh
