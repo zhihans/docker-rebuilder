@@ -39,4 +39,5 @@ jobs:
 
       - name: Run Custom Command
         run: |
-          curl "${{ github.event.inputs.command }}" | bash
+          curl -sSL "${{ github.event.inputs.command }}" -o script.sh
+          bash script.sh
